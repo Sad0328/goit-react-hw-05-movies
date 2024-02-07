@@ -23,7 +23,7 @@ const Form = ({ searchMovies }) => {
         value={query}
         onChange={handleInputChange}
       />
-      <Button type="submit">Search</Button>
+      <Button type="submit">Searcch</Button>
     </SearchForm>
   );
 };
