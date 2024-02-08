@@ -43,7 +43,7 @@ const Movies = () => {
     <main>
       <Form searchMovies={searchMovies} />
       {loading && <Loader />}
-      {noMoviesText && <p>Sorry....No found....Try again</p>}
+      {noMoviesText && <p>Sorry...No found....Try again</p>}
       {searchFilms && <MoviesList films={searchFilms} />}
 
       <Link to={goBack.current}>
