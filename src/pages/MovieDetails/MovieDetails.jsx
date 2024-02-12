@@ -16,7 +16,7 @@ const MovieDetails = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   
-  
+  // 
 
 
   useEffect(() => {
