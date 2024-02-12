@@ -3,22 +3,20 @@ import Loader from 'components/Loader/Loader';
 import MoviesList from 'components/MoviesList/MoviesList';
 import Form from 'components/Form/Form';
 import { fetchSearchByKeyword } from 'services/TmbdApi';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';   // change code
 // import { Link, useLocation } from 'react-router-dom';// change code
 
 const Movies = () => {
   const [searchFilms, setSearchFilms] = useState([]);
   const [loading, setLoading] = useState(false);
   const [noMoviesText, setNoMoviesText] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams(); // change code
 
-
-//   const handleSubmit = value(queryMovie) => {
-//   useSearchParams
-//     ({ queryMovie: page: 1 });
-//   setSearchParams([])
-// };
-
+  //   const handleSubmit = value(queryMovie) => {
+  //   useSearchParams
+  //     ({ queryMovie: page: 1 });
+  //   setSearchParams([])
+  // };
 
   const queryMovie = searchParams.get('query') || '';
 
@@ -53,8 +51,6 @@ const Movies = () => {
       {loading && <Loader />}
       {noMoviesText && <p>Sorry...No found....Try again</p>}
       {searchFilms && <MoviesList films={searchFilms} />}
-
-
     </main>
   );
 };
