@@ -3,22 +3,21 @@ import Loader from 'components/Loader/Loader';
 import MoviesList from 'components/MoviesList/MoviesList';
 import Form from 'components/Form/Form';
 import { fetchSearchByKeyword } from 'services/TmbdApi';
-import { useSearchParams } from 'react-router-dom';   // change code
-// import { Link, useLocation } from 'react-router-dom';// change code
+import * as React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
   const [searchFilms, setSearchFilms] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [noMoviesText, setNoMoviesText] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams(); // change code
+  const [noMoviesText, setNoMoviesText] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get('query') || '';
 
-  //   const handleSubmit = value(queryMovie) => {
-  //   useSearchParams
-  //     ({ queryMovie: page: 1 });
-  //   setSearchParams([])
-  // };
-
-  const queryMovie = searchParams.get('query') || '';
+  useEffect(() => {
+    if (search) {
+      searchMovies(search);
+    }
+  }, [search]);
 
   const searchMovies = query => {
     setLoading(true);
@@ -26,76 +25,31 @@ const Movies = () => {
     fetchSearchByKeyword(query)
       .then(searchResults => {
         setSearchFilms(searchResults);
-        setNoMoviesText(searchResults.length === 0);
+        setNoMoviesText(
+          searchResults.length === 0 ? 'No movies found(...... Try again.' : null
+        );
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
+        setNoMoviesText('Error .......... Try again.');
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
-  useEffect(() => {
-    if (queryMovie) {
-      searchMovies(queryMovie);
-    }
-  }, [queryMovie]);
-
-  // const location = useLocation(); // change code
-  // const goBack = useRef(location.state?.from || '/'); // change code
-
-  return (
-    <main>
-      <Form searchMovies={searchMovies} />
-      {loading && <Loader />}
-      {noMoviesText && <p>Sorry...No found....Try again</p>}
-      {searchFilms && <MoviesList films={searchFilms} />}
-    </main>
-  );
-};
-
-export default Movies;
-
-
-
-/* import { useState } from 'react';
-import Loader from 'components/Loader/Loader';
-import MoviesList from 'components/MoviesList/MoviesList';
-import Form from 'components/Form/Form';
-import { fetchSearchByKeyword } from 'services/TmbdApi';
-import { useSearchParams } from 'react-router-dom';
-
-const Movies = () => {
-  const [searchFilms, setSearchFilms] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [noMoviesText, setNoMoviesText] = useState(false);
-
-  const searchMovies = queryMovie => {
-    setLoading(true);
-
-    fetchSearchByKeyword(queryMovie)
-      .then(searchResults => {
-        setSearchFilms(searchResults);
-        setNoMoviesText(searchResults.length === 0);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const handleSearch = query => {
+    setSearchParams({ query });
   };
 
   return (
     <main>
-      <Form searchMovies={searchMovies} />
+      <Form searchMovies={handleSearch} />
       {loading && <Loader />}
-      {noMoviesText && <p>Sorry....No found....Try again</p>}
-      {searchFilms && <MoviesList films={searchFilms} />}
+      {noMoviesText && <p>{noMoviesText}</p>}
+      {searchFilms.length > 0 && <MoviesList films={searchFilms} />}
     </main>
   );
 };
 
 export default Movies;
-*/

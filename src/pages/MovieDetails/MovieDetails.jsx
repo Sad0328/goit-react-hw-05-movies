@@ -15,9 +15,7 @@ const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  
-  // 
-
+    const goBack = useRef(location.state?.from || '/');
 
   useEffect(() => {
     const fetchMovieDetailsFilms = () => {
@@ -51,16 +49,12 @@ const MovieDetails = () => {
     poster_path,
     original_title,
   } = movieInfo || {};
-    const goBack = useRef(location.state?.from || '/');
+
   return (
     <>
-      {/* <Link to={location.state?.from ?? '/'}>
-        <Button type="button">Go back</Button>
-      </Link> */}
       <Link to={goBack.current}>
-          <button type="button">Go back</button>
-        </Link>
-
+        <Button type="button">Go back</Button>
+      </Link>
       {loading && <Loader />}
 
       {movieInfo && (
