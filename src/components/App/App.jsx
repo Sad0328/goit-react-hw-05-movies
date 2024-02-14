@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/movies/:movieId/reviews" element={<Reviews />} />
         </Route>
 
-        <Route path="*" element= "ups.....not found page" />
+        <Route path="*" element={<Home />} />
       </Route>
     </Routes>
   );
